@@ -99,6 +99,11 @@ const rows = new Map([
   ["クマサン印のローラー", 600],
 ]);
 
+function joinKey(colKey: string, rowKey: string, subKey?: string) {
+  if (subKey) return `${colKey}~~~${rowKey}~~~${subKey}`
+  else return `${colKey}~~~${rowKey}`
+}
+
 const questionCount = rows.size * 23
 
 function calcCorrect(colKey: string, rowKey: string, subKey: string | void) {
@@ -118,7 +123,7 @@ function checkCorrect(userAnswer: string | void, colKey: string, rowKey: string,
 
 function Title({ answers }: { answers: Record<string, string> }) {
   const correctCount = Object.entries(answers).filter(([key, answer]) => {
-    return checkCorrect(answer, ...key.split("-") as [string, string])
+    return checkCorrect(answer, ...key.split("~~~") as [string, string])
   }).length
   return (
     <div className="fixed w-full flex flex-row items-center z-30 h-15 bg-white">
@@ -177,7 +182,7 @@ export default function App() {
                   return (
                     <td key={colKey} className="border-r-2 border-b-2 border-gray-300 p-2 whitespace-nowrap">
                       {[...colVal.entries()].map(([subKey, num1]) => {
-                        const key = `${colKey}-${rowKey}-${subKey}`;
+                        const key = joinKey(colKey, rowKey, subKey);
                         return <MultiCellInput
                           key={key}
                           rowKey={rowKey} colKey={colKey} subKey={subKey}
@@ -188,7 +193,7 @@ export default function App() {
                     </td>
                   );
                 } else {
-                  const key = `${colKey}-${rowKey}`;
+                  const key = joinKey(colKey, rowKey);
                   return <SingleCell key={key} rowKey={rowKey} colKey={colKey} userAnswer={answers[key]} handleChange={handleChange} showAnswerMode={showAnswerMode} />
                 }
               })}
@@ -230,7 +235,7 @@ const SingleCell = ({ colKey, rowKey, userAnswer, handleChange, showAnswerMode }
   handleChange: (key: string, input: string) => void
   showAnswerMode: boolean
 }) => {
-  const key = `${colKey}-${rowKey}`;
+  const key = joinKey(colKey, rowKey);
   const isCorrect = checkCorrect(userAnswer, colKey, rowKey)
   return (
     <td key={colKey} className={`border-r-2 border-b-2 border-gray-300 px-3 py-1 whitespace-nowrap`}>
@@ -266,7 +271,7 @@ const MultiCellInput = ({ colKey, rowKey, subKey, userAnswer, handleChange, show
   handleChange: (key: string, input: string) => void
   showAnswerMode: boolean
 }) => {
-  const key = `${colKey}-${rowKey}-${subKey}`;
+  const key = joinKey(colKey, rowKey, subKey);
   const isCorrect = checkCorrect(userAnswer, colKey, rowKey, subKey)
   return (
     <div key={subKey} className="mb-1 flex items-center justify-end space-x-2 relative pr-3">
