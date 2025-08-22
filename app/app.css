@@ -12,3 +12,13 @@ button {
 a {
   @apply hover:border-b text-blue-600;
 }
+
+@layer base {
+  .no-spin::-webkit-outer-spin-button,
+  .no-spin::-webkit-inner-spin-button,
+  .no-spin {
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: textfield !important;
+  }
+}

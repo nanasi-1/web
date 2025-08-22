@@ -1,4 +1,4 @@
-import { KeyRound, Lock, Code2, type LucideIcon, SquareCheck, Pin, CircleCheck, Music2, Lightbulb, Copy, GraduationCap } from "lucide-react";
+import { KeyRound, Lock, Code2, type LucideIcon, SquareCheck, Pin, CircleCheck, Music2, Lightbulb, Copy, GraduationCap, FishSymbol, Table } from "lucide-react";
 import { Link } from "react-router";
 
 export function Welcome() {
@@ -44,7 +44,8 @@ const apps: readonly MyApp[] = [
   { title: 'Hello World Quiz', path: "hello-world-quiz", desc: "言語を当てる（複数選択）", icons: [Code2, SquareCheck] },
   { title: 'Hit & Blow', path: "hit-and-blow", desc: 'ターン数制限なし', icons: [Pin, CircleCheck] },
   { title: '音階当てゲーム', path: "guess-the-note", desc: 'あなたに絶対音感はある？', icons: [Music2, Lightbulb] },
-  { title: '暗記カード', path: 'flash-card', desc: '登録不要で使える暗記アプリ', icons: [Copy, GraduationCap]}
+  { title: '暗記カード', path: 'flash-card', desc: '登録不要で使える暗記アプリ', icons: [Copy, GraduationCap]},
+  { title: '確定数100マス計算', path: 'salmon-squares', desc: 'サーモンランの知識を強化', icons: [FishSymbol, Table]},
 ]
 
 function AppCard({ title, path, desc, icons }: MyApp) {
