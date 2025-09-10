@@ -3,12 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "build": "react-router build && bun scripts/generate-sitemap.ts",
     "dev": "react-router dev",
     "start": "vite preview",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@forge42/seo-tools": "^1.4.5",
     "@react-router/fs-routes": "^7.7.1",
     "@react-router/node": "^7.7.1",
     "@react-router/serve": "^7.7.1",
