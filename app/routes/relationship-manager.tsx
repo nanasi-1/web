@@ -3,6 +3,13 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Plus, Edit2, Trash2, User, ArrowRight, Settings } from 'lucide-react';
 
+export const meta = () => {
+  return [
+    { title: '人間関係メモ' },
+    { name: 'description', content: '人物情報と相互関係をメモできます' },
+  ]
+}
+
 export default function RelationshipManager() {
   const [people, setPeople] = useState([]);
   const [relationships, setRelationships] = useState({});
@@ -15,9 +22,9 @@ export default function RelationshipManager() {
 
   // データをlocalStorageから読み込む
   useLayoutEffect(() => {
-    const savedPeople = localStorage.getItem('rm_people') ?? [];
-    const savedRelationships = localStorage.getItem('rm_relationships') ?? {};
-    const savedCustomFields = localStorage.getItem('rm_customFields') ?? ['年齢', '職業', '出身地'];
+    const savedPeople = localStorage.getItem('rm_people') ?? "[]";
+    const savedRelationships = localStorage.getItem('rm_relationships') ?? "{}";
+    const savedCustomFields = localStorage.getItem('rm_customFields') ?? JSON.stringify(['年齢', '職業', '出身地']);
 
     setPeople(JSON.parse(savedPeople));
     setRelationships(JSON.parse(savedRelationships));
@@ -77,6 +84,7 @@ export default function RelationshipManager() {
   };
 
   const handleDeletePerson = (id) => {
+    if (!confirm('本当にこの人物を削除しますか？関連する関係性メモもすべて削除されます。')) return;
     setPeople(people.filter(p => p.id !== id));
     const newRelationships = { ...relationships };
     delete newRelationships[id];
@@ -89,6 +97,7 @@ export default function RelationshipManager() {
   };
 
   const handleEditPerson = (person) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setEditingPerson(person);
     setFormData({
       name: person.name,
@@ -209,7 +218,7 @@ export default function RelationshipManager() {
           </div>
 
           {showFieldsEditor && (
-            <div className="bg-gray-50 rounded-lg p-6 mb-6 border-2 border-green-200">
+            <div className="bg-gray-50 rounded-lg p-6 mb-6 border-2 border-gray-300">
               <h3 className="text-xl font-bold mb-4">カスタム項目の編集</h3>
 
               <div className="mb-4">
